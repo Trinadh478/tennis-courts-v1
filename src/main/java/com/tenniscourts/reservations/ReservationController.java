@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,25 +23,21 @@ public class ReservationController extends BaseRestController {
     private final ReservationService reservationService;
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> bookReservation(CreateReservationRequestDTO createReservationRequestDTO) {
         return ResponseEntity.created(locationByEntity(reservationService.bookReservation(createReservationRequestDTO).getId())).build();
     }
 
-    @GetMapping("/{reservationId}")
-    @ResponseStatus(HttpStatus.OK)
+    @GetMapping
     public ResponseEntity<ReservationDTO> findReservation(@Param("reservationId") Long reservationId) {
         return ResponseEntity.ok(reservationService.findReservation(reservationId));
     }
     
-    @DeleteMapping("/{reservationId}")
-    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping
     public ResponseEntity<ReservationDTO> cancelReservation(@Param("reservationId") Long reservationId) {
         return ResponseEntity.ok(reservationService.cancelReservation(reservationId));
     }
     
-    @PutMapping("/{reservationId}/{scheduleId}")
-    @ResponseStatus(HttpStatus.OK)
+    @PutMapping
     public ResponseEntity<ReservationDTO> rescheduleReservation(@Param("reservationId") Long reservationId, @Param("scheduleId") Long scheduleId) {
         return ResponseEntity.ok(reservationService.rescheduleReservation(reservationId, scheduleId));
     }
